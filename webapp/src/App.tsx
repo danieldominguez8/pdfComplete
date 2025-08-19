@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+import { LibraryList } from '@/components/LibraryList'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import './index.css'
 
 function TopBar() {
@@ -37,9 +39,14 @@ export default function App() {
 		<div className="flex min-h-screen flex-col">
 			<TopBar />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
-				<div className="rounded-lg border bg-card p-6 text-card-foreground">
-					Welcome — select PDFs to begin.
-				</div>
+				<Card>
+					<CardHeader>
+						<CardTitle>Select PDFs</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<LibraryList />
+					</CardContent>
+				</Card>
 			</main>
 		</div>
 	)
