@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 100
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 100
+extend-select = ["E", "F", "I"]
+ignore = []
+
+# NOTE: This file is for reference only; frontend project uses ESLint + Prettier.
+
