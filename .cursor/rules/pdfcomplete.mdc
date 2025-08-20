@@ -1,0 +1,29 @@
+# PDFComplete — Project Rules
+
+## Guardrails (do not change)
+- Backend API contract is fixed:
+  - GET /pdfs -> string[]
+  - GET /fields_schema -> { version: string, ... }
+  - POST /combined_fields -> { pdfs: string[] } => { fields: FieldDef[], notes?: string[] }
+  - POST /fill -> PDF blob
+  - POST /admin/regenerate -> { ok: true, version: string } (requires ADMIN_KEY when configured)
+- Frontend shows the **union** of variables across selected PDFs. **No "common_only" mode**.
+- Deduping: case-insensitive; treat names that differ only by spaces/underscores as the same key.
+- Repeated widgets in a single PDF with the same name are edited once and applied everywhere.
+- Tech: React + TypeScript + Vite; Tailwind; shadcn/ui; Zustand; pdfjs (optional preview).
+- Build must run as a static bundle served by Flask `/static` or as a separate site with a dev proxy.
+- Source PDFs always live in `backend/files` (or `FILES_DIR` env). The frontend never bundles PDFs.
+- Never expose ADMIN_KEY in code, logs, or commits.
+
+## Acceptance checks (keep green)
+- Selecting multiple PDFs -> status shows “N unique variables”.
+- `/combined_fields` fetched with `{ pdfs }` only; fields list is deduped (case/space/underscore-insensitive).
+- Editing a repeated field updates all occurrences (×N badge when we know counts).
+- Batch “Fill selected” downloads one file per selected PDF.
+- Schema version appears in top bar; Regenerate invalidates caches and refreshes fields.
+
+## Implementation defaults (resolve ambiguity)
+- Field kind inference: default to "text" unless checkbox/radio is detected.
+- Cache combined fields by the **selection signature** only (no filter mode).
+- Download names: `<basename>_filled.pdf` unless `download_name` provided.
+- Prefer pinned dependencies.
