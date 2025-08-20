@@ -1,0 +1,11 @@
+# Python
+backend/__pycache__/
+backend/*.pyc
+backend/.venv/
+backend/.env
+backend/.env.*
+
+# PDFs and static build outputs
+backend/files/*
+!backend/files/.gitkeep
+backend/static/*
